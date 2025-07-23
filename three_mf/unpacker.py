@@ -22,9 +22,11 @@ def unpack_3mf(filepath, extract_to):
     raise FileNotFoundError("'Metadata/plate_1.gcode' not found in 3MF archive (checked inside top-level folders)")
 
 def repackage_3mf(folder, output_path):
-    # Get the directory and base name for the output
     output_dir = os.path.dirname(output_path)
     base_name = os.path.splitext(output_path)[0]
-    # Create the archive in the same directory as output_path
+    print("DEBUG: Before make_archive, output_dir:", output_dir, "base_name:", base_name, "folder:", folder)
+    print("DEBUG: Files in output_dir before:", os.listdir(output_dir))
     shutil.make_archive(base_name, 'zip', folder)
+    print("DEBUG: Files in output_dir after make_archive:", os.listdir(output_dir))
     os.rename(base_name + ".zip", output_path)
+    print("DEBUG: Files in output_dir after rename:", os.listdir(output_dir))
