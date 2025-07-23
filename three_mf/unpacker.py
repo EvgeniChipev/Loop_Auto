@@ -1,14 +1,22 @@
 import zipfile
 import os
 import shutil
+import traceback
 
 def unpack_3mf(filepath, extract_to):
+    print(f"DEBUG: Will extract to {extract_to}")
     if os.path.exists(extract_to):
         shutil.rmtree(extract_to)
     os.makedirs(extract_to, exist_ok=True)
 
-    with zipfile.ZipFile(filepath, 'r') as zip_ref:
-        zip_ref.extractall(extract_to)
+    try:
+        with zipfile.ZipFile(filepath, 'r') as zip_ref:
+            print(f"DEBUG: zip_ref.namelist() = {zip_ref.namelist()}")
+            zip_ref.extractall(extract_to)
+            print(f"DEBUG: Extracted to {extract_to}")
+    except Exception as e:
+        print(f"DEBUG: Extraction failed: {e}")
+        print(traceback.format_exc())
 
     # Look for Metadata/plate_1.gcode at any depth
     for root, dirs, files in os.walk(extract_to):
