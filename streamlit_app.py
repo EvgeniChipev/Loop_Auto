@@ -40,6 +40,12 @@ if uploaded_file:
         st.write("input_path exists:", os.path.isfile(input_path))
         st.write("input_path:", input_path)
 
+        # Check if the uploaded file is a valid zip archive
+        import zipfile
+        if not zipfile.is_zipfile(input_path):
+            st.error("The uploaded file is not a valid .3mf (zip) file. Please check your file and try again.")
+            st.stop()
+
         # Run automation
         try:
             gcode_path, extracted_folder = unpack_3mf(input_path, tempdir)
