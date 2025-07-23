@@ -10,12 +10,12 @@ def unpack_3mf(filepath, extract_to):
     with zipfile.ZipFile(filepath, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
 
-    for root, dirs, files in os.walk(extract_to):
-        for file in files:
-            if file.endswith(".gcode"):
-                return os.path.join(root, file)  # ✅ Return full absolute path
+    # Look specifically for Metadata/plate_1.gcode
+    target_gcode = os.path.join(extract_to, 'Metadata', 'plate_1.gcode')
+    if os.path.isfile(target_gcode):
+        return target_gcode
 
-    raise FileNotFoundError("G-code file not found in 3MF")
+    raise FileNotFoundError("'Metadata/plate_1.gcode' not found in 3MF archive")
 
 def repackage_3mf(folder, output_path):
     shutil.make_archive("temp_output", 'zip', folder)
