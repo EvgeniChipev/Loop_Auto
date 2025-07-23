@@ -14,8 +14,8 @@ def unpack_3mf(filepath, extract_to):
     for root, dirs, files in os.walk(extract_to):
         for file in files:
             if file == "plate_1.gcode" and "Metadata" in root:
-                # The extracted folder is the part before 'Metadata'
                 extracted_folder = root.split("Metadata")[0].rstrip(os.sep)
+                print(f"DEBUG: Found plate_1.gcode at {os.path.join(root, file)}; extracted_folder: {extracted_folder}")
                 return os.path.join(root, file), extracted_folder
 
     raise FileNotFoundError("'Metadata/plate_1.gcode' not found in 3MF archive (checked all locations)")

@@ -54,6 +54,13 @@ if uploaded_file:
         try:
             gcode_path, extracted_folder = unpack_3mf(input_path, tempdir)
 
+            # Debug: Show all files in tempdir after extraction
+            debug_tree = []
+            for root, dirs, files in os.walk(tempdir):
+                for name in files:
+                    debug_tree.append(os.path.join(root, name))
+            st.write("Full file tree in tempdir after extraction:", debug_tree)
+
             process_gcode(gcode_path, loop_count)
             repackage_3mf(extracted_folder, output_path)
 
