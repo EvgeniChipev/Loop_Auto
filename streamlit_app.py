@@ -24,8 +24,7 @@ if uploaded_file:
 
         # Run automation
         try:
-            gcode_filename = unpack_3mf(input_path, tempdir)
-            gcode_path = os.path.join(tempdir, gcode_filename)
+            gcode_path = unpack_3mf(input_path, tempdir)
 
             process_gcode(gcode_path, loop_count)
             repackage_3mf(tempdir, output_path)
