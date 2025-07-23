@@ -33,4 +33,10 @@ if uploaded_file:
                 st.download_button("📥 Download Modified 3MF", f, file_name="looped_output.3mf")
 
         except Exception as e:
+            # Debug: List all files and directories in tempdir
+            debug_files = []
+            for root, dirs, files in os.walk(tempdir):
+                for name in files:
+                    debug_files.append(os.path.join(root, name))
+            st.write("Files in tempdir after extraction:", debug_files)
             st.error(f"❌ Error: {str(e)}")
