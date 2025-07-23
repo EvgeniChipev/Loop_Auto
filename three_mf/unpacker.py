@@ -9,16 +9,17 @@ def unpack_3mf(filepath, extract_to):
         shutil.rmtree(extract_to)
     os.makedirs(extract_to, exist_ok=True)
 
+    real_extract = os.path.join(extract_to, "real_extract")
+    os.makedirs(real_extract, exist_ok=True)
     try:
         with zipfile.ZipFile(filepath, 'r') as zip_ref:
             print(f"DEBUG: zip_ref.namelist() = {zip_ref.namelist()}")
-            # Try extracting just one file
             if "Metadata/plate_1.gcode" in zip_ref.namelist():
-                zip_ref.extract("Metadata/plate_1.gcode", extract_to)
-                print("DEBUG: Manually extracted Metadata/plate_1.gcode")
+                zip_ref.extract("Metadata/plate_1.gcode", real_extract)
+                print("DEBUG: Manually extracted Metadata/plate_1.gcode to real_extract")
             else:
                 print("DEBUG: Metadata/plate_1.gcode not found in zip")
-            print(f"DEBUG: Files in extract_to after manual extract: {os.listdir(extract_to)}")
+            print(f"DEBUG: Files in real_extract after manual extract: {os.listdir(real_extract)}")
     except Exception as e:
         print(f"DEBUG: Extraction failed: {e}")
         print(traceback.format_exc())
