@@ -8,6 +8,8 @@ import shutil
 import importlib
 
 from gcode.gcode_editor import process_gcode
+# from three_mf.unpacker import unpack_3mf, repackage_3mf
+import importlib
 three_mf_unpacker = importlib.import_module('three_mf.unpacker')
 unpack_3mf = three_mf_unpacker.unpack_3mf
 repackage_3mf = three_mf_unpacker.repackage_3mf
@@ -34,7 +36,9 @@ if uploaded_file:
 
         # ✅ Fixed file saving for zipfile to work
         with open(input_path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
+            f.write(uploaded_file.read())
+        st.write("input_path exists:", os.path.isfile(input_path))
+        st.write("input_path:", input_path)
 
         # Run automation
         try:
