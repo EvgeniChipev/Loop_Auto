@@ -1,13 +1,22 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import streamlit as st
 import zipfile
 import tempfile
 import shutil
-import os
-import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from gcode.gcode_editor import process_gcode
 from three_mf.unpacker import unpack_3mf, repackage_3mf
+
+# Debug block to show sys.path and directory contents
+try:
+    st.info("Debug: sys.path and directory listing")
+    root_dir = os.path.dirname(os.path.abspath(__file__))
+    three_mf_dir = os.path.join(root_dir, 'three_mf')
+    st.code(f"sys.path: {sys.path}\n\nRoot dir: {os.listdir(root_dir)}\n\nthree_mf dir: {os.listdir(three_mf_dir)}")
+except Exception as e:
+    st.error(f"Debug error: {e}")
 
 st.title("🛠️ Bambu Loop Automator")
 st.write("Upload a `.3mf` file and loop your model automatically with your custom G-code templates.")
