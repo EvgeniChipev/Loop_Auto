@@ -12,8 +12,13 @@ def unpack_3mf(filepath, extract_to):
     try:
         with zipfile.ZipFile(filepath, 'r') as zip_ref:
             print(f"DEBUG: zip_ref.namelist() = {zip_ref.namelist()}")
-            zip_ref.extractall(extract_to)
-            print(f"DEBUG: Extracted to {extract_to}")
+            # Try extracting just one file
+            if "Metadata/plate_1.gcode" in zip_ref.namelist():
+                zip_ref.extract("Metadata/plate_1.gcode", extract_to)
+                print("DEBUG: Manually extracted Metadata/plate_1.gcode")
+            else:
+                print("DEBUG: Metadata/plate_1.gcode not found in zip")
+            print(f"DEBUG: Files in extract_to after manual extract: {os.listdir(extract_to)}")
     except Exception as e:
         print(f"DEBUG: Extraction failed: {e}")
         print(traceback.format_exc())
