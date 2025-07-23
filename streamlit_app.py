@@ -5,9 +5,12 @@ import streamlit as st
 import zipfile
 import tempfile
 import shutil
+import importlib
 
 from gcode.gcode_editor import process_gcode
-from three_mf.unpacker import unpack_3mf, repackage_3mf
+three_mf_unpacker = importlib.import_module('three_mf.unpacker')
+unpack_3mf = three_mf_unpacker.unpack_3mf
+repackage_3mf = three_mf_unpacker.repackage_3mf
 
 # Debug block to show sys.path and directory contents
 try:
