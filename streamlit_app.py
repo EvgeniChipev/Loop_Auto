@@ -3,6 +3,8 @@ import zipfile
 import tempfile
 import shutil
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from gcode.gcode_editor import process_gcode
 from three_mf.unpacker import unpack_3mf, repackage_3mf
