@@ -29,10 +29,9 @@ if uploaded_file:
             process_gcode(gcode_path, loop_count)
             repackage_3mf(extracted_folder, output_path)
 
-            # Debug output
-            st.write("Output path:", output_path)
-            st.write("Files in tempdir:", os.listdir(tempdir))
-            st.write("Is output_path a file?", os.path.isfile(output_path))
+            # Debug output (visually prominent)
+            st.info("Debug Output:")
+            st.code(f"Output path: {output_path}\nFiles in tempdir: {os.listdir(tempdir)}\nIs output_path a file? {os.path.isfile(output_path)}")
 
             with open(output_path, "rb") as f:
                 st.download_button("📥 Download Modified 3MF", f, file_name="looped_output.3mf")
