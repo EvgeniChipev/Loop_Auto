@@ -10,16 +10,15 @@ def unpack_3mf(filepath, extract_to):
     with zipfile.ZipFile(filepath, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
 
-    # Find the top-level folder (usually named after the .3mf file)
-    extracted_items = os.listdir(extract_to)
-    for item in extracted_items:
-        item_path = os.path.join(extract_to, item)
-        if os.path.isdir(item_path):
-            target_gcode = os.path.join(item_path, 'Metadata', 'plate_1.gcode')
-            if os.path.isfile(target_gcode):
-                return target_gcode, item_path
+    # Look for Metadata/plate_1.gcode at any depth
+    for root, dirs, files in os.walk(extract_to):
+        for file in files:
+            if file == "plate_1.gcode" and "Metadata" in root:
+                # The extracted folder is the part before 'Metadata'
+                extracted_folder = root.split("Metadata")[0].rstrip(os.sep)
+                return os.path.join(root, file), extracted_folder
 
-    raise FileNotFoundError("'Metadata/plate_1.gcode' not found in 3MF archive (checked inside top-level folders)")
+    raise FileNotFoundError("'Metadata/plate_1.gcode' not found in 3MF archive (checked all locations)")
 
 def repackage_3mf(folder, output_path):
     output_dir = os.path.dirname(output_path)
