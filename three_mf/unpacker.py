@@ -17,7 +17,7 @@ def unpack_3mf(filepath, extract_to):
         if os.path.isdir(item_path):
             target_gcode = os.path.join(item_path, 'Metadata', 'plate_1.gcode')
             if os.path.isfile(target_gcode):
-                return target_gcode
+                return target_gcode, item_path
 
     raise FileNotFoundError("'Metadata/plate_1.gcode' not found in 3MF archive (checked inside top-level folders)")
 

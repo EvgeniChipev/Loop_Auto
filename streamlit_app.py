@@ -24,10 +24,10 @@ if uploaded_file:
 
         # Run automation
         try:
-            gcode_path = unpack_3mf(input_path, tempdir)
+            gcode_path, extracted_folder = unpack_3mf(input_path, tempdir)
 
             process_gcode(gcode_path, loop_count)
-            repackage_3mf(tempdir, output_path)
+            repackage_3mf(extracted_folder, output_path)
 
             with open(output_path, "rb") as f:
                 st.download_button("📥 Download Modified 3MF", f, file_name="looped_output.3mf")
