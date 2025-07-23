@@ -15,17 +15,23 @@ loop_count = st.number_input("Number of print loops", min_value=1, max_value=50,
 
 if uploaded_file:
     with tempfile.TemporaryDirectory() as tempdir:
-        input_path = os.path.join(tempdir, "input.3mf")
+        input_path = os.path.join(tempdir, uploaded_file.name)
         output_path = os.path.join(tempdir, "output_looped.3mf")
 
+        # ✅ Fixed file saving for zipfile to work
         with open(input_path, "wb") as f:
-            f.write(uploaded_file.read())
+            f.write(uploaded_file.getbuffer())
 
-        gcode_filename = unpack_3mf(input_path, tempdir)
-        gcode_path = os.path.join(tempdir, gcode_filename)
+        # Run automation
+        try:
+            gcode_filename = unpack_3mf(input_path, tempdir)
+            gcode_path = os.path.join(tempdir, gcode_filename)
 
-        process_gcode(gcode_path, loop_count)
-        repackage_3mf(tempdir, output_path)
+            process_gcode(gcode_path, loop_count)
+            repackage_3mf(tempdir, output_path)
 
-        with open(output_path, "rb") as f:
-            st.download_button("📥 Download Modified 3MF", f, file_name="looped_output.3mf")
+            with open(output_path, "rb") as f:
+                st.download_button("📥 Download Modified 3MF", f, file_name="looped_output.3mf")
+
+        except Exception as e:
+            st.error(f"❌ Error: {str(e)}")
