@@ -13,7 +13,7 @@ def unpack_3mf(filepath, extract_to):
     for root, dirs, files in os.walk(extract_to):
         for file in files:
             if file.endswith(".gcode"):
-                return os.path.join(root[len(extract_to)+1:], file)
+                return os.path.join(root, file)  # ✅ Return full absolute path
 
     raise FileNotFoundError("G-code file not found in 3MF")
 
