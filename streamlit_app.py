@@ -36,7 +36,7 @@ if uploaded_file:
 
         # ✅ Fixed file saving for zipfile to work
         with open(input_path, "wb") as f:
-            f.write(uploaded_file.read())
+            f.write(uploaded_file.getbuffer())
         st.write("input_path exists:", os.path.isfile(input_path))
         st.write("input_path:", input_path)
 
