@@ -46,6 +46,10 @@ if uploaded_file:
             st.error("The uploaded file is not a valid .3mf (zip) file. Please check your file and try again.")
             st.stop()
 
+        # Debug: Show contents of the zip before extraction
+        with zipfile.ZipFile(input_path, 'r') as zip_ref:
+            st.write("Files in .3mf zip:", zip_ref.namelist())
+
         # Run automation
         try:
             gcode_path, extracted_folder = unpack_3mf(input_path, tempdir)
